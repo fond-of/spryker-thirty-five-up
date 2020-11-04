@@ -26,11 +26,11 @@ class ThirtyFiveUpEntityManager extends AbstractEntityManager implements ThirtyF
 
         $entity = new ThirtyFiveUpOrder();
         $entity->fromArray($thirtyFiveUpOrderTransfer->toArray());
-        $entity->setFkOrderId($thirtyFiveUpOrderTransfer->getSalesOrderId());
+        $entity->setFkSalesOrder($thirtyFiveUpOrderTransfer->getIdSalesOrder());
         $entity->save();
 
         foreach ($thirtyFiveUpOrderTransfer->getItems() as $itemTransfer) {
-            $itemTransfer->setFkThirtyFiveUpOrder($entity->getIdThirtyFiveUpOrder());
+            $itemTransfer->setIdThirtyFiveUpOrder($entity->getIdThirtyFiveUpOrder());
             $itemTransfer = $this->createThirtyFiveUpOrderItem($itemTransfer);
         }
         $thirtyFiveUpOrderTransfer->fromArray($entity->toArray(), true);
@@ -58,12 +58,12 @@ class ThirtyFiveUpEntityManager extends AbstractEntityManager implements ThirtyF
         }
         $id = $entity->getIdThirtyFiveUpOrder();
         $entity->fromArray($thirtyFiveUpOrderTransfer->toArray());
-        $entity->setFkOrderId($thirtyFiveUpOrderTransfer->getSalesOrderId());
+        $entity->setFkSalesOrder($thirtyFiveUpOrderTransfer->getIdSalesOrder());
         $entity->setIdThirtyFiveUpOrder($id);
         $entity->save();
 
         $thirtyFiveUpOrderTransfer->fromArray($entity->toArray(), true);
-        $thirtyFiveUpOrderTransfer->setSalesOrderId($entity->getFkOrderId());
+        $thirtyFiveUpOrderTransfer->setIdSalesOrder($entity->getFkSalesOrder());
         $thirtyFiveUpOrderTransfer->setId($id);
 
         return $thirtyFiveUpOrderTransfer;
@@ -76,7 +76,7 @@ class ThirtyFiveUpEntityManager extends AbstractEntityManager implements ThirtyF
      */
     public function createThirtyFiveUpOrderItem(ThirtyFiveUpOrderItemTransfer $itemTransfer): ThirtyFiveUpOrderItemTransfer
     {
-        $itemTransfer->requireFkThirtyFiveUpOrder();
+        $itemTransfer->requireIdThirtyFiveUpOrder();
         $itemTransfer->requireSku();
         $itemTransfer->requireQty();
         $itemTransfer->requireVendor();
@@ -86,6 +86,7 @@ class ThirtyFiveUpEntityManager extends AbstractEntityManager implements ThirtyF
         $entity = new ThirtyFiveUpOrderItem();
         $entity->fromArray($itemTransfer->toArray());
         $entity->setFkThirtyFiveUpVendor($vendor->getId());
+        $entity->setFkThirtyFiveUpOrder($itemTransfer->getIdThirtyFiveUpOrder());
         $entity->save();
 
         $itemTransfer->fromArray($entity->toArray(), true);

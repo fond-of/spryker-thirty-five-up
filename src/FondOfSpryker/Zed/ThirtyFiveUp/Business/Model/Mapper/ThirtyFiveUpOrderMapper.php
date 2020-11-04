@@ -69,7 +69,7 @@ class ThirtyFiveUpOrderMapper implements ThirtyFiveUpOrderMapperInterface
     ): ThirtyFiveUpOrderTransfer {
         $thirtyFiveUpOrderTransfer
             ->setOrderReference($saveOrderTransfer->getOrderReference())
-            ->setSalesOrderId($saveOrderTransfer->getIdSalesOrder());
+            ->setIdSalesOrder($saveOrderTransfer->getIdSalesOrder());
 
         return $thirtyFiveUpOrderTransfer;
     }
@@ -83,13 +83,13 @@ class ThirtyFiveUpOrderMapper implements ThirtyFiveUpOrderMapperInterface
     {
         $thirtyFiveUpItems = [];
         $knownVendor = $this->config->getKnownVendor();
-        $defaultLocale = $this->localeFacade->getCurrentLocaleName();
+        $currentLocale = $this->localeFacade->getCurrentLocaleName();
         foreach ($this->groupItems($quoteTransfer->getItems()) as $itemTransfer) {
             $attributes = $itemTransfer->getAbstractAttributes();
 
-            if (array_key_exists($defaultLocale, $attributes)) {
+            if (array_key_exists($currentLocale, $attributes)) {
                 $thirtyFiveUpItems = $this->getItemFromAttributes(
-                    $attributes[$defaultLocale],
+                    $attributes[$currentLocale],
                     $knownVendor,
                     $thirtyFiveUpItems,
                     $itemTransfer
@@ -173,6 +173,7 @@ class ThirtyFiveUpOrderMapper implements ThirtyFiveUpOrderMapperInterface
         return $thirtyFiveUpItem = (new ThirtyFiveUpOrderItemTransfer())
             ->setSku($value)
             ->setQty($itemTransfer->getQuantity())
+            ->setShopSku($itemTransfer->getSku())
             ->setVendor($this->mapVendor($vendor));
     }
 
@@ -194,9 +195,9 @@ class ThirtyFiveUpOrderMapper implements ThirtyFiveUpOrderMapperInterface
             if (
                 $this->stringEndsWith(
                     $attributeName,
-                    $this->config->getAttributeSkuPrefix()
+                    $this->config->getAttributeSkuSuffix()
                 ) && in_array(
-                    str_replace($this->config->getAttributeSkuPrefix(), '', $attributeName),
+                    str_replace($this->config->getAttributeSkuSuffix(), '', $attributeName),
                     $knownVendor
                 )
             ) {
@@ -205,7 +206,7 @@ class ThirtyFiveUpOrderMapper implements ThirtyFiveUpOrderMapperInterface
                     return $thirtyFiveUpItems;
                 }
 
-                $vendor = str_replace($this->config->getAttributeSkuPrefix(), '', $attributeName);
+                $vendor = str_replace($this->config->getAttributeSkuSuffix(), '', $attributeName);
                 $thirtyFiveUpItems[$check] = $this->mapOrderItem($attributeValue, $vendor, $itemTransfer);
 
                 return $thirtyFiveUpItems;

@@ -6,7 +6,7 @@
     <transfer name="ThirtyFiveUpOrder">
         <property name="id" type="int"/>
         <property name="items" singular="item" type="ThirtyFiveUpOrderItem[]"/>
-        <property name="salesOrderId" type="int"/>
+        <property name="idSalesOrder" type="int"/>
         <property name="orderReference" type="string"/>
         <property name="thirtyFiveUpReference" type="string"/>
         <property name="createdAt" type="int"/>
@@ -15,9 +15,10 @@
 
     <transfer name="ThirtyFiveUpOrderItem">
         <property name="id" type="int" />
-        <property name="fkThirtyFiveUpOrder" type="int" />
+        <property name="idThirtyFiveUpOrder" type="int" />
         <property name="vendor" type="ThirtyFiveUpVendor"/>
         <property name="sku" type="string"/>
+        <property name="shopSku" type="string"/>
         <property name="qty" type="int"/>
         <property name="createdAt" type="int"/>
         <property name="updatedAt" type="int"/>

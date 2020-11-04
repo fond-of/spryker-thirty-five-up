@@ -18,8 +18,8 @@ class ThirtyFiveUpConfig extends AbstractBundleConfig
     /**
      * @return string
      */
-    public function getAttributeSkuPrefix(): string
+    public function getAttributeSkuSuffix(): string
     {
-        return $this->get(ThirtyFiveUpConstants::SKU_PREFIX, '_sku');
+        return $this->get(ThirtyFiveUpConstants::SKU_SUFFIX, '_sku');
     }
 }

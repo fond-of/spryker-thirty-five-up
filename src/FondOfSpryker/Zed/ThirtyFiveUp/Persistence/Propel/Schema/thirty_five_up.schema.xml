@@ -6,7 +6,7 @@
     <table name="fos_thirty_five_up_order" phpName="ThirtyFiveUpOrder" identifierQuoting="true">
         <column name="id_thirty_five_up_order" required="true" type="INTEGER" autoIncrement="true" primaryKey="true"/>
 
-        <column name="fk_order_id" required="false" type="INTEGER"/>
+        <column name="fk_sales_order" required="false" type="INTEGER"/>
 
         <column name="order_reference" required="false" size="255" type="VARCHAR"/>
         <column name="thirty_five_up_reference" required="false" size="255" type="VARCHAR"/>
@@ -23,11 +23,20 @@
         <column name="fk_thirty_five_up_vendor" required="true" type="INTEGER"/>
 
         <column name="sku" required="true" size="255" type="VARCHAR"/>
+        <column name="shop_sku" required="true" size="255" type="VARCHAR"/>
         <column name="qty" required="true" type="INTEGER"/>
 
         <id-method-parameter value="fos_thirty_five_up_order_item_pk_seq"/>
 
         <behavior name="timestampable"/>
+
+        <foreign-key name="fos_thirty_five_up_order_item-fk_thirty_five_up_order" foreignTable="fos_thirty_five_up_order" phpName="ThirtyFiveUpOrder" refPhpName="ThirtyFiveUpOrderItem">
+            <reference local="fk_thirty_five_up_order" foreign="id_thirty_five_up_order"/>
+        </foreign-key>
+
+        <foreign-key name="fos_thirty_five_up_order_item-fk_thirty_five_up_vendor" foreignTable="fos_thirty_five_up_vendor" phpName="ThirtyFiveUpVendor" refPhpName="ThirtyFiveUpOrderItem">
+            <reference local="fk_thirty_five_up_vendor" foreign="id_thirty_five_up_vendor"/>
+        </foreign-key>
     </table>
 
     <table name="fos_thirty_five_up_vendor" phpName="ThirtyFiveUpVendor" identifierQuoting="true">

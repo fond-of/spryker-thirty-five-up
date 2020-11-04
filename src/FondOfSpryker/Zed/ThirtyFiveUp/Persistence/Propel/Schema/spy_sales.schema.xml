@@ -3,12 +3,15 @@
 
     <table name="spy_sales_order">
         <column name="fk_thirty_five_up_order" type="INTEGER" required="false"/>
+
+        <foreign-key name="spy_sales_order-fk_thirty_five_up_order" foreignTable="fos_thirty_five_up_order" phpName="ThirtyFiveUpOrderData" refPhpName="SalesOrder">
+            <reference local="fk_thirty_five_up_order" foreign="id_thirty_five_up_order"/>
+        </foreign-key>
     </table>
 
     <table name="spy_sales_order_item">
         <column name="vendor" size="255" type="VARCHAR"/>
         <column name="vendor_sku" size="255" type="VARCHAR"/>
-        <column name="qty" type="INTEGER"/>
     </table>
 
 </database>

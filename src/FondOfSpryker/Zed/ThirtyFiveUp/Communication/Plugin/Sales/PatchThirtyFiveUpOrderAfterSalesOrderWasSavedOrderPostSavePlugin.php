@@ -15,7 +15,7 @@ use Spryker\Zed\SalesExtension\Dependency\Plugin\OrderPostSavePluginInterface;
  * @method \FondOfSpryker\Zed\ThirtyFiveUp\Business\ThirtyFiveUpFacadeInterface getFacade()
  * @method \FondOfSpryker\Zed\ThirtyFiveUp\ThirtyFiveUpConfig getConfig()
  */
-class UpdateThirtyFiveUpOrderAfterPostSaveOrderExpanderPlugin extends AbstractPlugin implements OrderPostSavePluginInterface
+class PatchThirtyFiveUpOrderAfterSalesOrderWasSavedOrderPostSavePlugin extends AbstractPlugin implements OrderPostSavePluginInterface
 {
     /**
      * @param \Generated\Shared\Transfer\SaveOrderTransfer $saveOrderTransfer
