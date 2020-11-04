@@ -1,0 +1,40 @@
+<?xml version="1.0"?>
+<database xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="zed"
+          xsi:noNamespaceSchemaLocation="http://static.spryker.com/schema-01.xsd"
+          namespace="Orm\Zed\ThirtyFiveUp\Persistence" package="src.Orm.Zed.ThirtyFiveUp.Persistence">
+
+    <table name="fos_thirty_five_up_order" phpName="ThirtyFiveUpOrder" identifierQuoting="true">
+        <column name="id_thirty_five_up_order" required="true" type="INTEGER" autoIncrement="true" primaryKey="true"/>
+
+        <column name="fk_order_id" required="false" type="INTEGER"/>
+
+        <column name="order_reference" required="false" size="255" type="VARCHAR"/>
+        <column name="thirty_five_up_reference" required="false" size="255" type="VARCHAR"/>
+
+        <id-method-parameter value="fos_thirty_five_up_order_pk_seq"/>
+
+        <behavior name="timestampable"/>
+    </table>
+
+    <table name="fos_thirty_five_up_order_item" phpName="ThirtyFiveUpOrderItem" identifierQuoting="true">
+        <column name="id_thirty_five_up_order_item" required="true" type="INTEGER" autoIncrement="true" primaryKey="true"/>
+
+        <column name="fk_thirty_five_up_order" required="true" type="INTEGER"/>
+        <column name="fk_thirty_five_up_vendor" required="true" type="INTEGER"/>
+
+        <column name="sku" required="true" size="255" type="VARCHAR"/>
+        <column name="qty" required="true" type="INTEGER"/>
+
+        <id-method-parameter value="fos_thirty_five_up_order_item_pk_seq"/>
+
+        <behavior name="timestampable"/>
+    </table>
+
+    <table name="fos_thirty_five_up_vendor" phpName="ThirtyFiveUpVendor" identifierQuoting="true">
+        <column name="id_thirty_five_up_vendor" required="true" type="INTEGER" autoIncrement="true" primaryKey="true"/>
+
+        <column name="vendor" required="true" size="255" type="VARCHAR"/>
+
+        <id-method-parameter value="fos_thirty_five_up_vendor_pk_seq"/>
+    </table>
+</database>
