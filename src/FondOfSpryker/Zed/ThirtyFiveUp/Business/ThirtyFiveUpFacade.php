@@ -5,6 +5,7 @@ namespace FondOfSpryker\Zed\ThirtyFiveUp\Business;
 use Generated\Shared\Transfer\QuoteTransfer;
 use Generated\Shared\Transfer\SaveOrderTransfer;
 use Generated\Shared\Transfer\ThirtyFiveUpOrderTransfer;
+use Orm\Zed\ThirtyFiveUp\Persistence\ThirtyFiveUpOrder;
 use Spryker\Zed\Kernel\Business\AbstractFacade;
 
 /**
@@ -38,6 +39,19 @@ class ThirtyFiveUpFacade extends AbstractFacade implements ThirtyFiveUpFacadeInt
         SaveOrderTransfer $saveOrderTransfer,
         ThirtyFiveUpOrderTransfer $thirtyFiveUpOrderTransfer
     ): ThirtyFiveUpOrderTransfer {
-        return $this->getFactory()->createThirtyFiveUpOrderHandler()->handleFromSavedOrder($saveOrderTransfer, $thirtyFiveUpOrderTransfer);
+        return $this->getFactory()->createThirtyFiveUpOrderHandler()->handleFromSavedOrder(
+            $saveOrderTransfer,
+            $thirtyFiveUpOrderTransfer
+        );
+    }
+
+    /**
+     * @param \Orm\Zed\ThirtyFiveUp\Persistence\ThirtyFiveUpOrder $thirtyFiveUpOrder
+     *
+     * @return \Generated\Shared\Transfer\ThirtyFiveUpOrderTransfer
+     */
+    public function convertThirtyFiveUpOrderEntityToTransfer(ThirtyFiveUpOrder $thirtyFiveUpOrder): ThirtyFiveUpOrderTransfer
+    {
+        return $this->getFactory()->createThirtyFiveUpOrderMapper()->fromEntity($thirtyFiveUpOrder);
     }
 }

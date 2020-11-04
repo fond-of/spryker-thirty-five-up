@@ -11,6 +11,7 @@ use Generated\Shared\Transfer\SaveOrderTransfer;
 use Generated\Shared\Transfer\ThirtyFiveUpOrderItemTransfer;
 use Generated\Shared\Transfer\ThirtyFiveUpOrderTransfer;
 use Generated\Shared\Transfer\ThirtyFiveUpVendorTransfer;
+use Orm\Zed\ThirtyFiveUp\Persistence\ThirtyFiveUpOrder;
 
 class ThirtyFiveUpOrderMapper implements ThirtyFiveUpOrderMapperInterface
 {
@@ -70,6 +71,34 @@ class ThirtyFiveUpOrderMapper implements ThirtyFiveUpOrderMapperInterface
         $thirtyFiveUpOrderTransfer
             ->setOrderReference($saveOrderTransfer->getOrderReference())
             ->setIdSalesOrder($saveOrderTransfer->getIdSalesOrder());
+
+        return $thirtyFiveUpOrderTransfer;
+    }
+
+    /**
+     * @param \Orm\Zed\ThirtyFiveUp\Persistence\ThirtyFiveUpOrder $thirtyFiveUpOrder
+     *
+     * @return \Generated\Shared\Transfer\ThirtyFiveUpOrderTransfer
+     */
+    public function fromEntity(ThirtyFiveUpOrder $thirtyFiveUpOrder): ThirtyFiveUpOrderTransfer
+    {
+        $thirtyFiveUpOrderTransfer = new ThirtyFiveUpOrderTransfer();
+        $thirtyFiveUpOrderTransfer->fromArray($thirtyFiveUpOrder->toArray(), true);
+        $thirtyFiveUpOrderTransfer->setId($thirtyFiveUpOrder->getIdThirtyFiveUpOrder());
+        $thirtyFiveUpOrderTransfer->setIdSalesOrder($thirtyFiveUpOrder->getFkSalesOrder());
+
+        foreach ($thirtyFiveUpOrder->getThirtyFiveUpOrderItems() as $orderItem) {
+            $orderItemTransfer = new ThirtyFiveUpOrderItemTransfer();
+            $orderItemTransfer->fromArray($orderItem->toArray(), true);
+            $vendorTransfer = new ThirtyFiveUpVendorTransfer();
+            $vendor = $orderItem->getThirtyFiveUpVendor();
+            $vendorTransfer->fromArray($vendor->toArray(), true);
+            $vendorTransfer->setId($vendor->getIdThirtyFiveUpVendor());
+            $orderItemTransfer->setVendor($vendorTransfer);
+            $orderItemTransfer->setId($orderItem->getIdThirtyFiveUpOrderItem());
+            $orderItemTransfer->setIdThirtyFiveUpOrder($orderItem->getFkThirtyFiveUpOrder());
+            $thirtyFiveUpOrderTransfer->addItem($orderItemTransfer);
+        }
 
         return $thirtyFiveUpOrderTransfer;
     }

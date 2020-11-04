@@ -5,6 +5,7 @@ namespace FondOfSpryker\Zed\ThirtyFiveUp\Business;
 use Generated\Shared\Transfer\QuoteTransfer;
 use Generated\Shared\Transfer\SaveOrderTransfer;
 use Generated\Shared\Transfer\ThirtyFiveUpOrderTransfer;
+use Orm\Zed\ThirtyFiveUp\Persistence\ThirtyFiveUpOrder;
 
 interface ThirtyFiveUpFacadeInterface
 {
@@ -28,4 +29,13 @@ interface ThirtyFiveUpFacadeInterface
         SaveOrderTransfer $saveOrderTransfer,
         ThirtyFiveUpOrderTransfer $thirtyFiveUpOrderTransfer
     ): ThirtyFiveUpOrderTransfer;
+
+    /**
+     * @param \Orm\Zed\ThirtyFiveUp\Persistence\ThirtyFiveUpOrder $thirtyFiveUpOrder
+     *
+     * @throws \Propel\Runtime\Exception\PropelException
+     *
+     * @return \Generated\Shared\Transfer\ThirtyFiveUpOrderTransfer
+     */
+    public function convertThirtyFiveUpOrderEntityToTransfer(ThirtyFiveUpOrder $thirtyFiveUpOrder): ThirtyFiveUpOrderTransfer;
 }
