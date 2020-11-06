@@ -5,7 +5,7 @@
 
     <transfer name="ThirtyFiveUpOrder">
         <property name="id" type="int"/>
-        <property name="items" singular="item" type="ThirtyFiveUpOrderItem[]"/>
+        <property name="vendorItems" singular="vendorItem" type="ThirtyFiveUpOrderItem[]"/>
         <property name="idSalesOrder" type="int"/>
         <property name="orderReference" type="string"/>
         <property name="thirtyFiveUpReference" type="string"/>
@@ -27,6 +27,12 @@
     <transfer name="ThirtyFiveUpVendor">
         <property name="id" type="int" />
         <property name="name" type="int" />
+    </transfer>
+
+    <transfer name="ThirtyFiveUpResponse">
+        <property name="status" type="string"/>
+        <property name="code" type="int"/>
+        <property name="orders" singular="order" type="ThirtyFiveUpOrder[]"/>
     </transfer>
 
     <transfer name="Quote">

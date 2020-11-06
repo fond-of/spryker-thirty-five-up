@@ -26,15 +26,18 @@ class ThirtyFiveUpEntityManager extends AbstractEntityManager implements ThirtyF
 
         $entity = new ThirtyFiveUpOrder();
         $entity->fromArray($thirtyFiveUpOrderTransfer->toArray());
-        $entity->setFkSalesOrder($thirtyFiveUpOrderTransfer->getIdSalesOrder());
-        $entity->save();
+        $entity
+            ->setFkSalesOrder($thirtyFiveUpOrderTransfer->getIdSalesOrder())
+            ->save();
 
-        foreach ($thirtyFiveUpOrderTransfer->getItems() as $itemTransfer) {
+        foreach ($thirtyFiveUpOrderTransfer->getVendorItems() as $itemTransfer) {
             $itemTransfer->setIdThirtyFiveUpOrder($entity->getIdThirtyFiveUpOrder());
             $itemTransfer = $this->createThirtyFiveUpOrderItem($itemTransfer);
         }
         $thirtyFiveUpOrderTransfer->fromArray($entity->toArray(), true);
-        $thirtyFiveUpOrderTransfer->setId($entity->getIdThirtyFiveUpOrder());
+        $thirtyFiveUpOrderTransfer->setId($entity->getIdThirtyFiveUpOrder())
+            ->setCreatedAt($this->convertDateTimeToTimestamp($entity->getCreatedAt()))
+            ->setUpdatedAt($this->convertDateTimeToTimestamp($entity->getUpdatedAt()));
 
         return $thirtyFiveUpOrderTransfer;
     }
@@ -76,22 +79,27 @@ class ThirtyFiveUpEntityManager extends AbstractEntityManager implements ThirtyF
      */
     public function createThirtyFiveUpOrderItem(ThirtyFiveUpOrderItemTransfer $itemTransfer): ThirtyFiveUpOrderItemTransfer
     {
-        $itemTransfer->requireIdThirtyFiveUpOrder();
-        $itemTransfer->requireSku();
-        $itemTransfer->requireQty();
-        $itemTransfer->requireVendor();
+        $itemTransfer
+            ->requireIdThirtyFiveUpOrder()
+            ->requireSku()
+            ->requireQty()
+            ->requireVendor();
 
         $vendor = $this->createOrFindThirtyFiveUpVendor($itemTransfer->getVendor());
 
         $entity = new ThirtyFiveUpOrderItem();
         $entity->fromArray($itemTransfer->toArray());
-        $entity->setFkThirtyFiveUpVendor($vendor->getId());
-        $entity->setFkThirtyFiveUpOrder($itemTransfer->getIdThirtyFiveUpOrder());
-        $entity->save();
+        $entity
+            ->setFkThirtyFiveUpVendor($vendor->getId())
+            ->setFkThirtyFiveUpOrder($itemTransfer->getIdThirtyFiveUpOrder())
+            ->save();
 
         $itemTransfer->fromArray($entity->toArray(), true);
-        $itemTransfer->setVendor($vendor);
-        $itemTransfer->setId($entity->getIdThirtyFiveUpOrderItem());
+        $itemTransfer
+            ->setVendor($vendor)
+            ->setId($entity->getIdThirtyFiveUpOrderItem())
+            ->setCreatedAt($this->convertDateTimeToTimestamp($entity->getCreatedAt()))
+            ->setUpdatedAt($this->convertDateTimeToTimestamp($entity->getUpdatedAt()));
 
         return $itemTransfer;
     }
@@ -106,7 +114,7 @@ class ThirtyFiveUpEntityManager extends AbstractEntityManager implements ThirtyF
         $vendorTransfer->requireName();
 
         $query = $this->getFactory()->createThirtyFiveUpVendorQuery();
-        $entity = $query->filterByVendor($vendorTransfer->getName())->findOneOrCreate();
+        $entity = $query->filterByName($vendorTransfer->getName())->findOneOrCreate();
         if ($entity->getIdThirtyFiveUpVendor() === null) {
             $entity->save();
         }
@@ -114,5 +122,25 @@ class ThirtyFiveUpEntityManager extends AbstractEntityManager implements ThirtyF
         $vendorTransfer->setId($entity->getIdThirtyFiveUpVendor());
 
         return $vendorTransfer;
+    }
+
+    /**
+     * @param \Object|string $dateTime
+     *
+     * @throws \Exception
+     *
+     * @return int
+     */
+    protected function convertDateTimeToTimestamp($dateTime): int
+    {
+        if ($dateTime instanceof DateTime) {
+            return $dateTime->getTimestamp();
+        }
+
+        if (is_object($dateTime) === false && is_string($dateTime) === true) {
+            return strtotime($dateTime);
+        }
+
+        throw new Exception('Could not convert DateTime to timestamp');
     }
 }

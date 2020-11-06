@@ -5,6 +5,7 @@ namespace FondOfSpryker\Zed\ThirtyFiveUp\Business;
 use Generated\Shared\Transfer\QuoteTransfer;
 use Generated\Shared\Transfer\SaveOrderTransfer;
 use Generated\Shared\Transfer\ThirtyFiveUpOrderTransfer;
+use Generated\Shared\Transfer\ThirtyFiveUpResponseTransfer;
 use Orm\Zed\ThirtyFiveUp\Persistence\ThirtyFiveUpOrder;
 use Spryker\Zed\Kernel\Business\AbstractFacade;
 
@@ -53,5 +54,59 @@ class ThirtyFiveUpFacade extends AbstractFacade implements ThirtyFiveUpFacadeInt
     public function convertThirtyFiveUpOrderEntityToTransfer(ThirtyFiveUpOrder $thirtyFiveUpOrder): ThirtyFiveUpOrderTransfer
     {
         return $this->getFactory()->createThirtyFiveUpOrderMapper()->fromEntity($thirtyFiveUpOrder);
+    }
+
+    /**
+     * @param string $orderReference
+     *
+     * @return \Generated\Shared\Transfer\ThirtyFiveUpOrderTransfer|null
+     */
+    public function findThirtyFiveUpOrderByOrderReference(string $orderReference): ?ThirtyFiveUpOrderTransfer
+    {
+        return $this->getFactory()->createThirtyFiveUpReader()->findThirtyFiveUpOrderByOrderReference($orderReference);
+    }
+
+    /**
+     * @param string $thirtyFiveUpReference
+     *
+     * @return \Generated\Shared\Transfer\ThirtyFiveUpOrderTransfer|null
+     */
+    public function findThirtyFiveUpOrderByThirtyFiveUpReference(string $thirtyFiveUpReference): ?ThirtyFiveUpOrderTransfer
+    {
+        return $this->getFactory()->createThirtyFiveUpReader()->findThirtyFiveUpOrderByThirtyFiveUpReference($thirtyFiveUpReference);
+    }
+
+    /**
+     * @param int $id
+     *
+     * @return \Generated\Shared\Transfer\ThirtyFiveUpOrderTransfer|null
+     */
+    public function findThirtyFiveUpOrderById(int $id): ?ThirtyFiveUpOrderTransfer
+    {
+        return $this->getFactory()->createThirtyFiveUpReader()->findThirtyFiveUpOrderById($id);
+    }
+
+    /**
+     * @param \Generated\Shared\Transfer\ThirtyFiveUpOrderTransfer $thirtyFiveUpOrderTransfer
+     *
+     * @return \Generated\Shared\Transfer\ThirtyFiveUpResponseTransfer
+     */
+    public function updateThirtyFiveUpOrder(ThirtyFiveUpOrderTransfer $thirtyFiveUpOrderTransfer): ThirtyFiveUpResponseTransfer
+    {
+        // TODO: Implement updateThirtyFiveUpOrder() method.
+
+        return new ThirtyFiveUpResponseTransfer();
+    }
+
+    /**
+     * @param \Generated\Shared\Transfer\ThirtyFiveUpOrderTransfer $thirtyFiveUpOrderTransfer
+     *
+     * @return \Generated\Shared\Transfer\ThirtyFiveUpResponseTransfer
+     */
+    public function findThirtyFiveUpOrder(ThirtyFiveUpOrderTransfer $thirtyFiveUpOrderTransfer): ThirtyFiveUpResponseTransfer
+    {
+        // TODO: Implement findThirtyFiveUpOrder() method.
+
+        return new ThirtyFiveUpResponseTransfer();
     }
 }

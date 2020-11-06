@@ -6,6 +6,8 @@ use FondOfSpryker\Zed\ThirtyFiveUp\Business\Model\Handler\ThirtyFiveUpOrderHandl
 use FondOfSpryker\Zed\ThirtyFiveUp\Business\Model\Handler\ThirtyFiveUpOrderHandlerInterface;
 use FondOfSpryker\Zed\ThirtyFiveUp\Business\Model\Mapper\ThirtyFiveUpOrderMapper;
 use FondOfSpryker\Zed\ThirtyFiveUp\Business\Model\Mapper\ThirtyFiveUpOrderMapperInterface;
+use FondOfSpryker\Zed\ThirtyFiveUp\Business\Model\Reader\ThirtyFiveUpReader;
+use FondOfSpryker\Zed\ThirtyFiveUp\Business\Model\Reader\ThirtyFiveUpReaderInterface;
 use FondOfSpryker\Zed\ThirtyFiveUp\Business\Model\Writer\ThirtyFiveUpOrderWriter;
 use FondOfSpryker\Zed\ThirtyFiveUp\Business\Model\Writer\ThirtyFiveUpOrderWriterInterface;
 use FondOfSpryker\Zed\ThirtyFiveUp\Dependency\Facade\ThirtyFiveUpToLocaleFacadeInterface;
@@ -39,7 +41,7 @@ class ThirtyFiveUpBusinessFactory extends AbstractBusinessFactory
      */
     public function createThirtyFiveUpOrderMapper(): ThirtyFiveUpOrderMapperInterface
     {
-        return new ThirtyFiveUpOrderMapper($this->getConfig(), $this->getLocaleFacade());
+        return new ThirtyFiveUpOrderMapper($this->getConfig(), $this->getLocaleFacade(), $this->getRepository());
     }
 
     /**
@@ -48,6 +50,14 @@ class ThirtyFiveUpBusinessFactory extends AbstractBusinessFactory
     public function createThirtyFiveUpOrderWriter(): ThirtyFiveUpOrderWriterInterface
     {
         return new ThirtyFiveUpOrderWriter($this->getEntityManager());
+    }
+
+    /**
+     * @return \FondOfSpryker\Zed\ThirtyFiveUp\Business\Model\Reader\ThirtyFiveUpReaderInterface
+     */
+    public function createThirtyFiveUpReader(): ThirtyFiveUpReaderInterface
+    {
+        return new ThirtyFiveUpReader($this->getRepository());
     }
 
     /**

@@ -2,6 +2,8 @@
 
 namespace FondOfSpryker\Zed\ThirtyFiveUp\Persistence;
 
+use FondOfSpryker\Zed\ThirtyFiveUp\Persistence\Propel\Mapper\ThirtyFiveUpEntityMapper;
+use FondOfSpryker\Zed\ThirtyFiveUp\Persistence\Propel\Mapper\ThirtyFiveUpEntityMapperInterface;
 use Orm\Zed\ThirtyFiveUp\Persistence\ThirtyFiveUpOrderItemQuery;
 use Orm\Zed\ThirtyFiveUp\Persistence\ThirtyFiveUpOrderQuery;
 use Orm\Zed\ThirtyFiveUp\Persistence\ThirtyFiveUpVendorQuery;
@@ -14,6 +16,14 @@ use Spryker\Zed\Kernel\Persistence\AbstractPersistenceFactory;
  */
 class ThirtyFiveUpPersistenceFactory extends AbstractPersistenceFactory
 {
+    /**
+     * @return \FondOfSpryker\Zed\ThirtyFiveUp\Persistence\Propel\Mapper\ThirtyFiveUpEntityMapperInterface
+     */
+    public function createThirtyFiveUpEntityMapper(): ThirtyFiveUpEntityMapperInterface
+    {
+        return new ThirtyFiveUpEntityMapper();
+    }
+
     /**
      * @return \Orm\Zed\ThirtyFiveUp\Persistence\ThirtyFiveUpOrderQuery
      */

@@ -42,7 +42,7 @@
     <table name="fos_thirty_five_up_vendor" phpName="ThirtyFiveUpVendor" identifierQuoting="true">
         <column name="id_thirty_five_up_vendor" required="true" type="INTEGER" autoIncrement="true" primaryKey="true"/>
 
-        <column name="vendor" required="true" size="255" type="VARCHAR"/>
+        <column name="name" required="true" size="255" type="VARCHAR"/>
 
         <id-method-parameter value="fos_thirty_five_up_vendor_pk_seq"/>
     </table>

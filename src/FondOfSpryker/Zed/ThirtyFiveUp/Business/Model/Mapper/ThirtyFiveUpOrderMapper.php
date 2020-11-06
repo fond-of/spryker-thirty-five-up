@@ -4,6 +4,7 @@ namespace FondOfSpryker\Zed\ThirtyFiveUp\Business\Model\Mapper;
 
 use ArrayObject;
 use FondOfSpryker\Zed\ThirtyFiveUp\Dependency\Facade\ThirtyFiveUpToLocaleFacadeInterface;
+use FondOfSpryker\Zed\ThirtyFiveUp\Persistence\ThirtyFiveUpRepositoryInterface;
 use FondOfSpryker\Zed\ThirtyFiveUp\ThirtyFiveUpConfig;
 use Generated\Shared\Transfer\ItemTransfer;
 use Generated\Shared\Transfer\QuoteTransfer;
@@ -28,13 +29,20 @@ class ThirtyFiveUpOrderMapper implements ThirtyFiveUpOrderMapperInterface
     protected $localeFacade;
 
     /**
+     * @var \FondOfSpryker\Zed\ThirtyFiveUp\Persistence\ThirtyFiveUpRepositoryInterface
+     */
+    protected $repository;
+
+    /**
      * @param \FondOfSpryker\Zed\ThirtyFiveUp\ThirtyFiveUpConfig $config
      * @param \FondOfSpryker\Zed\ThirtyFiveUp\Dependency\Facade\ThirtyFiveUpToLocaleFacadeInterface $localeFacade
+     * @param \FondOfSpryker\Zed\ThirtyFiveUp\Persistence\ThirtyFiveUpRepositoryInterface $repository
      */
-    public function __construct(ThirtyFiveUpConfig $config, ThirtyFiveUpToLocaleFacadeInterface $localeFacade)
+    public function __construct(ThirtyFiveUpConfig $config, ThirtyFiveUpToLocaleFacadeInterface $localeFacade, ThirtyFiveUpRepositoryInterface $repository)
     {
         $this->config = $config;
         $this->localeFacade = $localeFacade;
+        $this->repository = $repository;
     }
 
     /**
@@ -52,7 +60,7 @@ class ThirtyFiveUpOrderMapper implements ThirtyFiveUpOrderMapperInterface
 
         $thirtyFiveUpOrder = new ThirtyFiveUpOrderTransfer();
         foreach ($thirtyFiveUpItems as $itemTransfer) {
-            $thirtyFiveUpOrder->addItem($itemTransfer);
+            $thirtyFiveUpOrder->addVendorItem($itemTransfer);
         }
 
         return $thirtyFiveUpOrder;
@@ -82,25 +90,7 @@ class ThirtyFiveUpOrderMapper implements ThirtyFiveUpOrderMapperInterface
      */
     public function fromEntity(ThirtyFiveUpOrder $thirtyFiveUpOrder): ThirtyFiveUpOrderTransfer
     {
-        $thirtyFiveUpOrderTransfer = new ThirtyFiveUpOrderTransfer();
-        $thirtyFiveUpOrderTransfer->fromArray($thirtyFiveUpOrder->toArray(), true);
-        $thirtyFiveUpOrderTransfer->setId($thirtyFiveUpOrder->getIdThirtyFiveUpOrder());
-        $thirtyFiveUpOrderTransfer->setIdSalesOrder($thirtyFiveUpOrder->getFkSalesOrder());
-
-        foreach ($thirtyFiveUpOrder->getThirtyFiveUpOrderItems() as $orderItem) {
-            $orderItemTransfer = new ThirtyFiveUpOrderItemTransfer();
-            $orderItemTransfer->fromArray($orderItem->toArray(), true);
-            $vendorTransfer = new ThirtyFiveUpVendorTransfer();
-            $vendor = $orderItem->getThirtyFiveUpVendor();
-            $vendorTransfer->fromArray($vendor->toArray(), true);
-            $vendorTransfer->setId($vendor->getIdThirtyFiveUpVendor());
-            $orderItemTransfer->setVendor($vendorTransfer);
-            $orderItemTransfer->setId($orderItem->getIdThirtyFiveUpOrderItem());
-            $orderItemTransfer->setIdThirtyFiveUpOrder($orderItem->getFkThirtyFiveUpOrder());
-            $thirtyFiveUpOrderTransfer->addItem($orderItemTransfer);
-        }
-
-        return $thirtyFiveUpOrderTransfer;
+        return $this->repository->convertOrderEntityToTransfer($thirtyFiveUpOrder);
     }
 
     /**
