@@ -5,7 +5,6 @@ namespace FondOfSpryker\Zed\ThirtyFiveUp\Business;
 use Generated\Shared\Transfer\QuoteTransfer;
 use Generated\Shared\Transfer\SaveOrderTransfer;
 use Generated\Shared\Transfer\ThirtyFiveUpOrderTransfer;
-use Generated\Shared\Transfer\ThirtyFiveUpResponseTransfer;
 use Orm\Zed\ThirtyFiveUp\Persistence\ThirtyFiveUpOrder;
 
 interface ThirtyFiveUpFacadeInterface
@@ -68,11 +67,12 @@ interface ThirtyFiveUpFacadeInterface
     public function findThirtyFiveUpOrderById(int $id): ?ThirtyFiveUpOrderTransfer;
 
     /**
-     * @param  \Generated\Shared\Transfer\ThirtyFiveUpOrderTransfer  $thirtyFiveUpOrderTransfer
+     * @param \Generated\Shared\Transfer\ThirtyFiveUpOrderTransfer $thirtyFiveUpOrderTransfer
      *
-     * @return \Generated\Shared\Transfer\ThirtyFiveUpOrderTransfer
      * @throws \Propel\Runtime\Exception\PropelException
      * @throws \Spryker\Zed\Propel\Business\Exception\AmbiguousComparisonException
+     *
+     * @return \Generated\Shared\Transfer\ThirtyFiveUpOrderTransfer
      */
     public function updateThirtyFiveUpOrder(ThirtyFiveUpOrderTransfer $thirtyFiveUpOrderTransfer): ThirtyFiveUpOrderTransfer;
 }

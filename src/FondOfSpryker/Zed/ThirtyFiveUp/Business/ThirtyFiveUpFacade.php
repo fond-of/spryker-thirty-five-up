@@ -5,7 +5,6 @@ namespace FondOfSpryker\Zed\ThirtyFiveUp\Business;
 use Generated\Shared\Transfer\QuoteTransfer;
 use Generated\Shared\Transfer\SaveOrderTransfer;
 use Generated\Shared\Transfer\ThirtyFiveUpOrderTransfer;
-use Generated\Shared\Transfer\ThirtyFiveUpResponseTransfer;
 use Orm\Zed\ThirtyFiveUp\Persistence\ThirtyFiveUpOrder;
 use Spryker\Zed\Kernel\Business\AbstractFacade;
 
@@ -87,11 +86,9 @@ class ThirtyFiveUpFacade extends AbstractFacade implements ThirtyFiveUpFacadeInt
     }
 
     /**
-     * @param  \Generated\Shared\Transfer\ThirtyFiveUpOrderTransfer  $thirtyFiveUpOrderTransfer
+     * @param \Generated\Shared\Transfer\ThirtyFiveUpOrderTransfer $thirtyFiveUpOrderTransfer
      *
      * @return \Generated\Shared\Transfer\ThirtyFiveUpOrderTransfer
-     * @throws \Propel\Runtime\Exception\PropelException
-     * @throws \Spryker\Zed\Propel\Business\Exception\AmbiguousComparisonException
      */
     public function updateThirtyFiveUpOrder(ThirtyFiveUpOrderTransfer $thirtyFiveUpOrderTransfer): ThirtyFiveUpOrderTransfer
     {

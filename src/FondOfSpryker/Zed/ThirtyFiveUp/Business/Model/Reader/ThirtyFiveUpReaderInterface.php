@@ -3,7 +3,6 @@
 namespace FondOfSpryker\Zed\ThirtyFiveUp\Business\Model\Reader;
 
 use Generated\Shared\Transfer\ThirtyFiveUpOrderTransfer;
-use Generated\Shared\Transfer\ThirtyFiveUpResponseTransfer;
 
 interface ThirtyFiveUpReaderInterface
 {

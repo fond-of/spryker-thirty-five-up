@@ -49,6 +49,4 @@ class ThirtyFiveUpReader implements ThirtyFiveUpReaderInterface
     {
         return $this->repository->findThirtyFiveUpOrderById($id);
     }
-
-
 }
