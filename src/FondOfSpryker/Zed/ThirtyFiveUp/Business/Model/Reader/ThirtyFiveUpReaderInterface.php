@@ -33,18 +33,4 @@ interface ThirtyFiveUpReaderInterface
      * @return \Generated\Shared\Transfer\ThirtyFiveUpOrderTransfer|null
      */
     public function findThirtyFiveUpOrderById(int $id): ?ThirtyFiveUpOrderTransfer;
-
-    /**
-     * @param \Generated\Shared\Transfer\ThirtyFiveUpOrderTransfer $thirtyFiveUpOrderTransfer
-     *
-     * @return \Generated\Shared\Transfer\ThirtyFiveUpResponseTransfer
-     */
-    public function updateThirtyFiveUpOrder(ThirtyFiveUpOrderTransfer $thirtyFiveUpOrderTransfer): ThirtyFiveUpResponseTransfer;
-
-    /**
-     * @param \Generated\Shared\Transfer\ThirtyFiveUpOrderTransfer $thirtyFiveUpOrderTransfer
-     *
-     * @return \Generated\Shared\Transfer\ThirtyFiveUpResponseTransfer
-     */
-    public function findThirtyFiveUpOrder(ThirtyFiveUpOrderTransfer $thirtyFiveUpOrderTransfer): ThirtyFiveUpResponseTransfer;
 }

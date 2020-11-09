@@ -87,26 +87,14 @@ class ThirtyFiveUpFacade extends AbstractFacade implements ThirtyFiveUpFacadeInt
     }
 
     /**
-     * @param \Generated\Shared\Transfer\ThirtyFiveUpOrderTransfer $thirtyFiveUpOrderTransfer
+     * @param  \Generated\Shared\Transfer\ThirtyFiveUpOrderTransfer  $thirtyFiveUpOrderTransfer
      *
-     * @return \Generated\Shared\Transfer\ThirtyFiveUpResponseTransfer
+     * @return \Generated\Shared\Transfer\ThirtyFiveUpOrderTransfer
+     * @throws \Propel\Runtime\Exception\PropelException
+     * @throws \Spryker\Zed\Propel\Business\Exception\AmbiguousComparisonException
      */
-    public function updateThirtyFiveUpOrder(ThirtyFiveUpOrderTransfer $thirtyFiveUpOrderTransfer): ThirtyFiveUpResponseTransfer
+    public function updateThirtyFiveUpOrder(ThirtyFiveUpOrderTransfer $thirtyFiveUpOrderTransfer): ThirtyFiveUpOrderTransfer
     {
-        // TODO: Implement updateThirtyFiveUpOrder() method.
-
-        return new ThirtyFiveUpResponseTransfer();
-    }
-
-    /**
-     * @param \Generated\Shared\Transfer\ThirtyFiveUpOrderTransfer $thirtyFiveUpOrderTransfer
-     *
-     * @return \Generated\Shared\Transfer\ThirtyFiveUpResponseTransfer
-     */
-    public function findThirtyFiveUpOrder(ThirtyFiveUpOrderTransfer $thirtyFiveUpOrderTransfer): ThirtyFiveUpResponseTransfer
-    {
-        // TODO: Implement findThirtyFiveUpOrder() method.
-
-        return new ThirtyFiveUpResponseTransfer();
+        return $this->getFactory()->createThirtyFiveUpOrderWriter()->update($thirtyFiveUpOrderTransfer);
     }
 }
