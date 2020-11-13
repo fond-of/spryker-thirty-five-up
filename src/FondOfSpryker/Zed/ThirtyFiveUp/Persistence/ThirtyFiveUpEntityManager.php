@@ -2,6 +2,7 @@
 
 namespace FondOfSpryker\Zed\ThirtyFiveUp\Persistence;
 
+use DateTime;
 use FondOfSpryker\Zed\ThirtyFiveUp\Exception\ThirtyFiveUpOrderNotFoundException;
 use Generated\Shared\Transfer\ThirtyFiveUpOrderItemTransfer;
 use Generated\Shared\Transfer\ThirtyFiveUpOrderTransfer;
@@ -9,6 +10,8 @@ use Generated\Shared\Transfer\ThirtyFiveUpVendorTransfer;
 use Orm\Zed\ThirtyFiveUp\Persistence\ThirtyFiveUpOrder;
 use Orm\Zed\ThirtyFiveUp\Persistence\ThirtyFiveUpOrderItem;
 use Spryker\Zed\Kernel\Persistence\AbstractEntityManager;
+use Exception;
+use Symfony\Component\VarDumper\Cloner\Data;
 
 /**
  * @method \FondOfSpryker\Zed\ThirtyFiveUp\Persistence\ThirtyFiveUpPersistenceFactory getFactory()
@@ -22,12 +25,14 @@ class ThirtyFiveUpEntityManager extends AbstractEntityManager implements ThirtyF
      */
     public function createThirtyFiveUpOrder(ThirtyFiveUpOrderTransfer $thirtyFiveUpOrderTransfer): ThirtyFiveUpOrderTransfer
     {
-        $thirtyFiveUpOrderTransfer->requireItems();
-
+        $thirtyFiveUpOrderTransfer->requireVendorItems();
+        $now = new DateTime();
         $entity = new ThirtyFiveUpOrder();
         $entity->fromArray($thirtyFiveUpOrderTransfer->toArray());
         $entity
             ->setFkSalesOrder($thirtyFiveUpOrderTransfer->getIdSalesOrder())
+            ->setCreatedAt($now)
+            ->setUpdatedAt($now)
             ->save();
 
         foreach ($thirtyFiveUpOrderTransfer->getVendorItems() as $itemTransfer) {
@@ -60,14 +65,21 @@ class ThirtyFiveUpEntityManager extends AbstractEntityManager implements ThirtyF
             throw new ThirtyFiveUpOrderNotFoundException(sprintf('No thirty five up order with id %s found', $thirtyFiveUpOrderTransfer->getId()));
         }
         $id = $entity->getIdThirtyFiveUpOrder();
+        $createdAt = $entity->getCreatedAt();
+        $updatedAt = new DateTime();
         $entity->fromArray($thirtyFiveUpOrderTransfer->toArray());
-        $entity->setFkSalesOrder($thirtyFiveUpOrderTransfer->getIdSalesOrder());
-        $entity->setIdThirtyFiveUpOrder($id);
+        $entity->setFkSalesOrder($thirtyFiveUpOrderTransfer->getIdSalesOrder())
+            ->setIdThirtyFiveUpOrder($id)
+            ->setCreatedAt($createdAt)
+            ->setUpdatedAt($updatedAt);
         $entity->save();
 
         $thirtyFiveUpOrderTransfer->fromArray($entity->toArray(), true);
-        $thirtyFiveUpOrderTransfer->setIdSalesOrder($entity->getFkSalesOrder());
-        $thirtyFiveUpOrderTransfer->setId($id);
+        $thirtyFiveUpOrderTransfer
+            ->setIdSalesOrder($entity->getFkSalesOrder())
+            ->setId($id)
+            ->setCreatedAt($this->convertDateTimeToTimestamp($entity->getCreatedAt()))
+            ->setUpdatedAt($this->convertDateTimeToTimestamp($entity->getUpdatedAt()));
 
         return $thirtyFiveUpOrderTransfer;
     }
@@ -79,6 +91,7 @@ class ThirtyFiveUpEntityManager extends AbstractEntityManager implements ThirtyF
      */
     public function createThirtyFiveUpOrderItem(ThirtyFiveUpOrderItemTransfer $itemTransfer): ThirtyFiveUpOrderItemTransfer
     {
+        $now = new DateTime();
         $itemTransfer
             ->requireIdThirtyFiveUpOrder()
             ->requireSku()
@@ -92,6 +105,8 @@ class ThirtyFiveUpEntityManager extends AbstractEntityManager implements ThirtyF
         $entity
             ->setFkThirtyFiveUpVendor($vendor->getId())
             ->setFkThirtyFiveUpOrder($itemTransfer->getIdThirtyFiveUpOrder())
+            ->setCreatedAt($now)
+            ->setUpdatedAt($now)
             ->save();
 
         $itemTransfer->fromArray($entity->toArray(), true);
@@ -125,14 +140,17 @@ class ThirtyFiveUpEntityManager extends AbstractEntityManager implements ThirtyF
     }
 
     /**
-     * @param \Object|string $dateTime
+     * @param $dateTime
      *
+     * @return int|null
      * @throws \Exception
-     *
-     * @return int
      */
-    protected function convertDateTimeToTimestamp($dateTime): int
+    protected function convertDateTimeToTimestamp($dateTime): ?int
     {
+        if ($dateTime === null){
+            return null;
+        }
+
         if ($dateTime instanceof DateTime) {
             return $dateTime->getTimestamp();
         }

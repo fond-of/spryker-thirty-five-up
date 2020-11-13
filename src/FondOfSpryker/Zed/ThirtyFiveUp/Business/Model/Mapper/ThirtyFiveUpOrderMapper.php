@@ -4,6 +4,7 @@ namespace FondOfSpryker\Zed\ThirtyFiveUp\Business\Model\Mapper;
 
 use ArrayObject;
 use FondOfSpryker\Zed\ThirtyFiveUp\Dependency\Facade\ThirtyFiveUpToLocaleFacadeInterface;
+use FondOfSpryker\Zed\ThirtyFiveUp\Dependency\Facade\ThirtyFiveUpToStoreFacadeInterface;
 use FondOfSpryker\Zed\ThirtyFiveUp\Persistence\ThirtyFiveUpRepositoryInterface;
 use FondOfSpryker\Zed\ThirtyFiveUp\ThirtyFiveUpConfig;
 use Generated\Shared\Transfer\ItemTransfer;
@@ -29,6 +30,11 @@ class ThirtyFiveUpOrderMapper implements ThirtyFiveUpOrderMapperInterface
     protected $localeFacade;
 
     /**
+     * @var \FondOfSpryker\Zed\ThirtyFiveUp\Dependency\Facade\ThirtyFiveUpToStoreFacadeInterface
+     */
+    protected $storeFacade;
+
+    /**
      * @var \FondOfSpryker\Zed\ThirtyFiveUp\Persistence\ThirtyFiveUpRepositoryInterface
      */
     protected $repository;
@@ -38,10 +44,11 @@ class ThirtyFiveUpOrderMapper implements ThirtyFiveUpOrderMapperInterface
      * @param \FondOfSpryker\Zed\ThirtyFiveUp\Dependency\Facade\ThirtyFiveUpToLocaleFacadeInterface $localeFacade
      * @param \FondOfSpryker\Zed\ThirtyFiveUp\Persistence\ThirtyFiveUpRepositoryInterface $repository
      */
-    public function __construct(ThirtyFiveUpConfig $config, ThirtyFiveUpToLocaleFacadeInterface $localeFacade, ThirtyFiveUpRepositoryInterface $repository)
+    public function __construct(ThirtyFiveUpConfig $config, ThirtyFiveUpToLocaleFacadeInterface $localeFacade, ThirtyFiveUpRepositoryInterface $repository, ThirtyFiveUpToStoreFacadeInterface $storeFacade)
     {
         $this->config = $config;
         $this->localeFacade = $localeFacade;
+        $this->storeFacade = $storeFacade;
         $this->repository = $repository;
     }
 
@@ -62,7 +69,7 @@ class ThirtyFiveUpOrderMapper implements ThirtyFiveUpOrderMapperInterface
         foreach ($thirtyFiveUpItems as $itemTransfer) {
             $thirtyFiveUpOrder->addVendorItem($itemTransfer);
         }
-
+        $thirtyFiveUpOrder->setStore($this->storeFacade->getCurrentStoreName());
         return $thirtyFiveUpOrder;
     }
 
@@ -78,6 +85,7 @@ class ThirtyFiveUpOrderMapper implements ThirtyFiveUpOrderMapperInterface
     ): ThirtyFiveUpOrderTransfer {
         $thirtyFiveUpOrderTransfer
             ->setOrderReference($saveOrderTransfer->getOrderReference())
+            ->setStore($this->storeFacade->getCurrentStoreName())
             ->setIdSalesOrder($saveOrderTransfer->getIdSalesOrder());
 
         return $thirtyFiveUpOrderTransfer;

@@ -9,9 +9,27 @@
         <column name="fk_sales_order" required="false" type="INTEGER"/>
 
         <column name="order_reference" required="false" size="255" type="VARCHAR"/>
+        <column name="store" required="true" size="255" type="VARCHAR"/>
+        <column name="payment_status" required="false" size="255" type="VARCHAR"/>
         <column name="thirty_five_up_reference" required="false" size="255" type="VARCHAR"/>
 
         <id-method-parameter value="fos_thirty_five_up_order_pk_seq"/>
+
+        <unique name="fos_thirty_five_up_order-order_reference">
+            <unique-column name="order_reference"/>
+        </unique>
+
+        <unique name="fos_thirty_five_up_order-thirty_five_up_reference">
+            <unique-column name="thirty_five_up_reference"/>
+        </unique>
+
+        <index name="fos_thirty_five_up_order-index-order_reference">
+            <index-column name="order_reference"/>
+        </index>
+
+        <index name="fos_thirty_five_up_order-index-thirty_five_up_reference">
+            <index-column name="thirty_five_up_reference"/>
+        </index>
 
         <behavior name="timestampable"/>
     </table>

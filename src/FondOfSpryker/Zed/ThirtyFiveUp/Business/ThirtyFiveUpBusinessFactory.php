@@ -11,6 +11,7 @@ use FondOfSpryker\Zed\ThirtyFiveUp\Business\Model\Reader\ThirtyFiveUpReaderInter
 use FondOfSpryker\Zed\ThirtyFiveUp\Business\Model\Writer\ThirtyFiveUpOrderWriter;
 use FondOfSpryker\Zed\ThirtyFiveUp\Business\Model\Writer\ThirtyFiveUpOrderWriterInterface;
 use FondOfSpryker\Zed\ThirtyFiveUp\Dependency\Facade\ThirtyFiveUpToLocaleFacadeInterface;
+use FondOfSpryker\Zed\ThirtyFiveUp\Dependency\Facade\ThirtyFiveUpToStoreFacadeInterface;
 use FondOfSpryker\Zed\ThirtyFiveUp\ThirtyFiveUpDependencyProvider;
 use Spryker\Zed\Kernel\Business\AbstractBusinessFactory;
 
@@ -41,7 +42,7 @@ class ThirtyFiveUpBusinessFactory extends AbstractBusinessFactory
      */
     public function createThirtyFiveUpOrderMapper(): ThirtyFiveUpOrderMapperInterface
     {
-        return new ThirtyFiveUpOrderMapper($this->getConfig(), $this->getLocaleFacade(), $this->getRepository());
+        return new ThirtyFiveUpOrderMapper($this->getConfig(), $this->getLocaleFacade(), $this->getRepository(), $this->getStoreFacade());
     }
 
     /**
@@ -66,5 +67,14 @@ class ThirtyFiveUpBusinessFactory extends AbstractBusinessFactory
     public function getLocaleFacade(): ThirtyFiveUpToLocaleFacadeInterface
     {
         return $this->getProvidedDependency(ThirtyFiveUpDependencyProvider::FACADE_LOCALE);
+    }
+
+    /**
+     * @return \FondOfSpryker\Zed\ThirtyFiveUp\Dependency\Facade\ThirtyFiveUpToStoreFacadeInterface
+     * @throws \Spryker\Zed\Kernel\Exception\Container\ContainerKeyNotFoundException
+     */
+    public function getStoreFacade(): ThirtyFiveUpToStoreFacadeInterface
+    {
+        return $this->getProvidedDependency(ThirtyFiveUpDependencyProvider::FACADE_STORE);
     }
 }

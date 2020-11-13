@@ -33,7 +33,7 @@ class AddThirtyFiveUpDataToSalesOrderItemExpanderPreSavePlugin extends AbstractP
         $thirtyFiveUpOrder = $quoteTransfer->getThirtyFiveUpOrder();
 
         if ($thirtyFiveUpOrder !== null) {
-            foreach ($thirtyFiveUpOrder->getItems() as $thirtyFiveUpOrderItemTransfer) {
+            foreach ($thirtyFiveUpOrder->getVendorItems() as $thirtyFiveUpOrderItemTransfer) {
                 if ($salesOrderItemEntity->getSku() === $thirtyFiveUpOrderItemTransfer->getShopSku()) {
                     $salesOrderItemEntity->setVendor($thirtyFiveUpOrderItemTransfer->getVendor()->getName());
                     $salesOrderItemEntity->setVendorSku($thirtyFiveUpOrderItemTransfer->getSku());

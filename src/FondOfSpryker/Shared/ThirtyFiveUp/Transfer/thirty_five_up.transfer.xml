@@ -8,6 +8,8 @@
         <property name="vendorItems" singular="vendorItem" type="ThirtyFiveUpOrderItem[]"/>
         <property name="idSalesOrder" type="int"/>
         <property name="orderReference" type="string"/>
+        <property name="store" type="string"/>
+        <property name="paymentStatus" type="string"/>
         <property name="thirtyFiveUpReference" type="string"/>
         <property name="createdAt" type="int"/>
         <property name="updatedAt" type="int"/>

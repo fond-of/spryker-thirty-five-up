@@ -82,8 +82,12 @@ class ThirtyFiveUpEntityMapper implements ThirtyFiveUpEntityMapperInterface
      *
      * @return int
      */
-    protected function convertDateTimeToTimestamp($dateTime): int
+    protected function convertDateTimeToTimestamp($dateTime): ?int
     {
+        if ($dateTime === null){
+            return null;
+        }
+
         if ($dateTime instanceof DateTime) {
             return $dateTime->getTimestamp();
         }
