@@ -12,9 +12,7 @@ class ThirtyFiveUpToStoreFacadeBridge implements ThirtyFiveUpToStoreFacadeInterf
     protected $facade;
 
     /**
-     * ThirtyFiveUpToStoreFacadeBridge constructor.
-     *
-     * @param  \Spryker\Zed\Store\Business\StoreFacadeInterface  $storeFacade
+     * @param \Spryker\Zed\Store\Business\StoreFacadeInterface $storeFacade
      */
     public function __construct(StoreFacadeInterface $storeFacade)
     {

@@ -71,7 +71,6 @@ class ThirtyFiveUpBusinessFactory extends AbstractBusinessFactory
 
     /**
      * @return \FondOfSpryker\Zed\ThirtyFiveUp\Dependency\Facade\ThirtyFiveUpToStoreFacadeInterface
-     * @throws \Spryker\Zed\Kernel\Exception\Container\ContainerKeyNotFoundException
      */
     public function getStoreFacade(): ThirtyFiveUpToStoreFacadeInterface
     {

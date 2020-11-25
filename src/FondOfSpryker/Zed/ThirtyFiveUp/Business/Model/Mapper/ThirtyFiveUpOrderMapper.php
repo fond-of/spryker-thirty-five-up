@@ -43,9 +43,14 @@ class ThirtyFiveUpOrderMapper implements ThirtyFiveUpOrderMapperInterface
      * @param \FondOfSpryker\Zed\ThirtyFiveUp\ThirtyFiveUpConfig $config
      * @param \FondOfSpryker\Zed\ThirtyFiveUp\Dependency\Facade\ThirtyFiveUpToLocaleFacadeInterface $localeFacade
      * @param \FondOfSpryker\Zed\ThirtyFiveUp\Persistence\ThirtyFiveUpRepositoryInterface $repository
+     * @param \FondOfSpryker\Zed\ThirtyFiveUp\Dependency\Facade\ThirtyFiveUpToStoreFacadeInterface $storeFacade
      */
-    public function __construct(ThirtyFiveUpConfig $config, ThirtyFiveUpToLocaleFacadeInterface $localeFacade, ThirtyFiveUpRepositoryInterface $repository, ThirtyFiveUpToStoreFacadeInterface $storeFacade)
-    {
+    public function __construct(
+        ThirtyFiveUpConfig $config,
+        ThirtyFiveUpToLocaleFacadeInterface $localeFacade,
+        ThirtyFiveUpRepositoryInterface $repository,
+        ThirtyFiveUpToStoreFacadeInterface $storeFacade
+    ) {
         $this->config = $config;
         $this->localeFacade = $localeFacade;
         $this->storeFacade = $storeFacade;
@@ -70,6 +75,7 @@ class ThirtyFiveUpOrderMapper implements ThirtyFiveUpOrderMapperInterface
             $thirtyFiveUpOrder->addVendorItem($itemTransfer);
         }
         $thirtyFiveUpOrder->setStore($this->storeFacade->getCurrentStoreName());
+
         return $thirtyFiveUpOrder;
     }
 

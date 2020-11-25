@@ -80,11 +80,11 @@ class ThirtyFiveUpEntityMapper implements ThirtyFiveUpEntityMapperInterface
      *
      * @throws \Exception
      *
-     * @return int
+     * @return int|null
      */
     protected function convertDateTimeToTimestamp($dateTime): ?int
     {
-        if ($dateTime === null){
+        if ($dateTime === null) {
             return null;
         }
 

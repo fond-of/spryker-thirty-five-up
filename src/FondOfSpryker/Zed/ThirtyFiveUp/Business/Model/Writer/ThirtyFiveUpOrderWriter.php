@@ -25,7 +25,7 @@ class ThirtyFiveUpOrderWriter implements ThirtyFiveUpOrderWriterInterface
      *
      * @return \Generated\Shared\Transfer\ThirtyFiveUpOrderTransfer
      */
-    public function create(ThirtyFiveUpOrderTransfer $orderTransfer)
+    public function create(ThirtyFiveUpOrderTransfer $orderTransfer): ThirtyFiveUpOrderTransfer
     {
         return $this->entityManager->createThirtyFiveUpOrder($orderTransfer);
     }
@@ -35,7 +35,7 @@ class ThirtyFiveUpOrderWriter implements ThirtyFiveUpOrderWriterInterface
      *
      * @return \Generated\Shared\Transfer\ThirtyFiveUpOrderTransfer
      */
-    public function update(ThirtyFiveUpOrderTransfer $orderTransfer)
+    public function update(ThirtyFiveUpOrderTransfer $orderTransfer): ThirtyFiveUpOrderTransfer
     {
         return $this->entityManager->updateThirtyFiveUpOrder($orderTransfer);
     }
