@@ -3,6 +3,7 @@
 namespace FondOfSpryker\Zed\ThirtyFiveUp\Persistence;
 
 use DateTime;
+use Exception;
 use FondOfSpryker\Zed\ThirtyFiveUp\Exception\ThirtyFiveUpOrderNotFoundException;
 use Generated\Shared\Transfer\ThirtyFiveUpOrderItemTransfer;
 use Generated\Shared\Transfer\ThirtyFiveUpOrderTransfer;
@@ -10,8 +11,6 @@ use Generated\Shared\Transfer\ThirtyFiveUpVendorTransfer;
 use Orm\Zed\ThirtyFiveUp\Persistence\ThirtyFiveUpOrder;
 use Orm\Zed\ThirtyFiveUp\Persistence\ThirtyFiveUpOrderItem;
 use Spryker\Zed\Kernel\Persistence\AbstractEntityManager;
-use Exception;
-use Symfony\Component\VarDumper\Cloner\Data;
 
 /**
  * @method \FondOfSpryker\Zed\ThirtyFiveUp\Persistence\ThirtyFiveUpPersistenceFactory getFactory()
@@ -142,12 +141,13 @@ class ThirtyFiveUpEntityManager extends AbstractEntityManager implements ThirtyF
     /**
      * @param $dateTime
      *
-     * @return int|null
      * @throws \Exception
+     *
+     * @return int|null
      */
     protected function convertDateTimeToTimestamp($dateTime): ?int
     {
-        if ($dateTime === null){
+        if ($dateTime === null) {
             return null;
         }
 
