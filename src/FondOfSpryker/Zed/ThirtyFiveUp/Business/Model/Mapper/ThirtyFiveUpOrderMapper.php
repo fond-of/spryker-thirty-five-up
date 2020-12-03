@@ -226,7 +226,7 @@ class ThirtyFiveUpOrderMapper implements ThirtyFiveUpOrderMapperInterface
     ): array {
         foreach ($attributes as $attributeName => $attributeValue) {
             if (
-                $attributeValue !== null
+                empty($attributeValue) === false
                 && $this->stringEndsWith(
                     $attributeName,
                     $this->config->getAttributeSkuSuffix()
